@@ -3,6 +3,7 @@ import pygame
 import pygame_gui
 import sys, os, random, time
 from pygame.locals import *
+import tetris
 
 # 게임 색상 정의하기
 BLACK = (0, 0, 0)
@@ -32,14 +33,18 @@ IMG_ENEMIES.append(pygame.image.load(os.path.join(IMAGE_FOLDER, "Enemy2.png")))
 IMG_ENEMIES.append(pygame.image.load(os.path.join(IMAGE_FOLDER, "Enemy3.png")))
 IMG_ENEMIES.append(pygame.image.load(os.path.join(IMAGE_FOLDER, "IceCube.png")))
 
+MAIN_HOMT = pygame.image.load(os.path.join(IMAGE_FOLDER, "mainHome.jpg"))
+
 # 게임 화면 초기화하기
-screen = pygame.display.set_mode(IMG_ROAD.get_size())
+screen = pygame.display.set_mode(MAIN_HOMT.get_size())
+
 
 
 # 게임 끝내기 함수
-def GameOver():
+def GameOver(time_delta, manager):
     global screen
     global IMG_ROAD
+    #global manager
     
     # 게임 끝내기 문자열 만들기
     fontGameOver = pygame.font.SysFont(textFonts, textSize)
@@ -56,15 +61,49 @@ def GameOver():
     # 검은색 배경에 게임 오버 메시지 출력하기
     screen.fill(BLACK)
     screen.blit(textGameOver, rectGameOver)       
-    screen.blit(textGameOver2, rectGameOver2)                                                                                                                                              
+    screen.blit(textGameOver2, rectGameOver2)                                                                                                                                            
+
+
+
+    replay_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),
+                                             text='REPLAY',
+                                             manager=manager)
+    mainhome_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((650, 275), (300, 50)),
+                                             text='MAIN_HOME',
+                                             manager=manager) 
+
+
+    # 이벤트 확인하기
+    while (True):
+        for event in pygame.event.get():
+            if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == replay_button:
+                    #startButton = True
+                    print('test')
+                    replay_button.kill()
+                if event.ui_element == mainhome_button:
+                    print('test2')
+                    mainhome_button.kill()
+                    tetris.game_start()
+            manager.process_events(event)
+
+        manager.update(time_delta)
+        manager.draw_ui(screen)
+
+        pygame.display.update()
+    
+
     # 출력 업데이트하기
-    pygame.display.update()
+    
+
+    
 
     # 일시 정지하기
-    time.sleep(5)
+    #time.sleep()
+
     # 게임 끝내기 
-    pygame.quit()
-    sys.exit()
+    #pygame.quit()
+    #sys.exit()
 
 async def main():
     global startSpeed
@@ -88,10 +127,12 @@ async def main():
     # 파이게임 초기화하기
     pygame.init()
 
-    manager = pygame_gui.UIManager(IMG_ROAD.get_size())
+    manager = pygame_gui.UIManager(MAIN_HOMT.get_size())
+    
     hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),
                                              text='Game Start',
                                              manager=manager)
+    
     # 프레임 매니저 초기화하기
     clock = pygame.time.Clock()
 
@@ -120,10 +161,12 @@ async def main():
         pygame.display.set_caption("Crazy Driver - Score " + str(score))
 
         # 메인 화면
-
+        screen.blit(MAIN_HOMT, (0, 0))
+        
         if startButton == True:
             # 배경 두기
             screen.blit(IMG_ROAD, (0, 0))
+            #screen.blit(MAIN_HOMT, (0, 0))
 
             # 플레이어 화면에 두기
             screen.blit(player.image, player.rect)
@@ -211,7 +254,7 @@ async def main():
                     moveSpeed = startSpeed
                 else:
                     # 충돌! 게임 오버
-                    GameOver()
+                    GameOver(time_delta, manager)
 
         # 이벤트 확인하기
         for event in pygame.event.get():
@@ -221,10 +264,10 @@ async def main():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-              if event.ui_element == hello_button:
-                  print("test")
-                  startButton = True
-                  hello_button.kill()
+                if event.ui_element == hello_button:
+                    print("test")
+                    startButton = True
+                    hello_button.kill()
 
             manager.process_events(event)
 
