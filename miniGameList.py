@@ -7,12 +7,32 @@ import tetris, racingGame, runner
 GAME_ROOT_FOLDER = os.path.dirname(__file__)
 IMAGE_FOLDER = os.path.join(GAME_ROOT_FOLDER, "Images")
 
-# 이미지 가져오기
-MINIGAMELIST = pygame.image.load(os.path.join(IMAGE_FOLDER, "minigameList.png"))
-MINIGAMELIST = pygame.transform.scale(MINIGAMELIST, (1024, 1024))
 # 게임 화면 초기화하기
-screen = pygame.display.set_mode(MINIGAMELIST.get_size())
+screen = pygame.display.set_mode((1024, 768))
 
+# 이미지 가져오기
+# MINIGAMELIST = pygame.image.load(os.path.join(IMAGE_FOLDER, "minigameList.png")).convert_alpha()
+# MINIGAMELIST = pygame.transform.scale(MINIGAMELIST, (1024, 768))
+LOBBY = pygame.image.load(os.path.join(IMAGE_FOLDER, "Lobby.png")).convert_alpha()
+LOBBY = pygame.transform.scale(LOBBY, (1024, 768))
+
+LEFT_ARROW = pygame.image.load(os.path.join(IMAGE_FOLDER, "Left_Arrow.png")).convert_alpha()
+LEFT_ARROW = pygame.transform.scale(LEFT_ARROW, (162, 142))
+
+LEFT_ARROW_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Left_Arrow_Click.png")).convert_alpha()
+LEFT_ARROW_CLICK = pygame.transform.scale(LEFT_ARROW_CLICK, (162, 142))
+
+RIGHT_ARROW = pygame.image.load(os.path.join(IMAGE_FOLDER, "Right_Arrow.png")).convert_alpha()
+RIGHT_ARROW = pygame.transform.scale(RIGHT_ARROW, (162, 142))
+
+RIGHT_ARROW_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Right_Arrow_Click.png")).convert_alpha()
+RIGHT_ARROW_CLICK = pygame.transform.scale(RIGHT_ARROW_CLICK, (162, 142))
+
+PLAY_BUTTON = pygame.image.load(os.path.join(IMAGE_FOLDER, "Play_Button.png")).convert_alpha()
+PLAY_BUTTON = pygame.transform.scale(PLAY_BUTTON, (50, 150))
+
+HELP_BUTTON = pygame.image.load(os.path.join(IMAGE_FOLDER, "Help_Button.png")).convert_alpha()
+HELP_BUTTON = pygame.transform.scale(PLAY_BUTTON, (50, 150))
     
 
 # 게임 끝내기 함수
@@ -51,7 +71,11 @@ def main():
 
     # 제목 표시줄 설정하기
     pygame.display.set_caption("Mini Games")
-    screen.blit(MINIGAMELIST, (0, 0))
+    screen.blit(LOBBY, (0, 0))
+    screen.blit(LEFT_ARROW, (37, 200))
+    screen.blit(RIGHT_ARROW, (960, 200))
+    screen.blit(PLAY_BUTTON, (100, 600))
+    screen.blit(HELP_BUTTON, (800, 600))
 
     # 메인 게임 루프
     while True:

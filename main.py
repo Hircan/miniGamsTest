@@ -11,6 +11,7 @@ IMAGE_FOLDER = os.path.join(GAME_ROOT_FOLDER, "Images")
 
 # 이미지 가져오기
 START_PAGE = pygame.image.load(os.path.join(IMAGE_FOLDER, "startPage.png"))
+START_PAGE = pygame.transform.scale(START_PAGE, (1024, 768))
 
 # 게임 화면 초기화하기
 screen = pygame.display.set_mode(START_PAGE.get_size())
