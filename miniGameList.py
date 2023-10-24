@@ -16,48 +16,37 @@ screen = pygame.display.set_mode((1024, 768))
 LOBBY = pygame.image.load(os.path.join(IMAGE_FOLDER, "Lobby.png")).convert_alpha()
 LOBBY = pygame.transform.scale(LOBBY, (1024, 768))
 
+LOADING = pygame.image.load(os.path.join(IMAGE_FOLDER, "loading.png")).convert_alpha()
+#LOADING = pygame.transform.scale(LOADING, (1024, 768))
+
 LEFT_ARROW = pygame.image.load(os.path.join(IMAGE_FOLDER, "Left_Arrow.png")).convert_alpha()
-LEFT_ARROW = pygame.transform.scale(LEFT_ARROW, (162, 142))
+LEFT_ARROW = pygame.transform.scale(LEFT_ARROW, (139, 121))
+LEFT_ARROW_GET_RECT = LEFT_ARROW.get_rect(left=50, top=324)
 
 LEFT_ARROW_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Left_Arrow_Click.png")).convert_alpha()
-LEFT_ARROW_CLICK = pygame.transform.scale(LEFT_ARROW_CLICK, (162, 142))
+LEFT_ARROW_CLICK = pygame.transform.scale(LEFT_ARROW_CLICK, (139, 121))
 
 RIGHT_ARROW = pygame.image.load(os.path.join(IMAGE_FOLDER, "Right_Arrow.png")).convert_alpha()
-RIGHT_ARROW = pygame.transform.scale(RIGHT_ARROW, (162, 142))
+RIGHT_ARROW = pygame.transform.scale(RIGHT_ARROW, (139, 121))
+RIGHT_ARROW_GET_RECT = RIGHT_ARROW.get_rect(left=835, top=324)
 
 RIGHT_ARROW_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Right_Arrow_Click.png")).convert_alpha()
-RIGHT_ARROW_CLICK = pygame.transform.scale(RIGHT_ARROW_CLICK, (162, 142))
+RIGHT_ARROW_CLICK = pygame.transform.scale(RIGHT_ARROW_CLICK, (139, 121))
 
 PLAY_BUTTON = pygame.image.load(os.path.join(IMAGE_FOLDER, "Play_Button.png")).convert_alpha()
-PLAY_BUTTON = pygame.transform.scale(PLAY_BUTTON, (50, 150))
+PLAY_BUTTON = pygame.transform.scale(PLAY_BUTTON, (251, 107))
+PLAY_BUTTON_GET_RECT = PLAY_BUTTON.get_rect(left=179, top=610)
+
+PLAY_BUTTON_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Play_Button_Click.png")).convert_alpha()
+PLAY_BUTTON_CLICK = pygame.transform.scale(PLAY_BUTTON_CLICK, (251, 107))
+
 
 HELP_BUTTON = pygame.image.load(os.path.join(IMAGE_FOLDER, "Help_Button.png")).convert_alpha()
-HELP_BUTTON = pygame.transform.scale(PLAY_BUTTON, (50, 150))
-    
+HELP_BUTTON = pygame.transform.scale(HELP_BUTTON, (251, 107))
+HELP_BUTTON_GET_RECT = HELP_BUTTON.get_rect(left=585, top=610)
 
-# 게임 끝내기 함수
-# def GameOver(time_delta, manager):
-#     global screen
-#     global IMG_ROAD
-#     #global manager
-    
-#     # 게임 끝내기 문자열 만들기
-#     fontGameOver = pygame.font.SysFont(textFonts, textSize)
-#     textGameOver = fontGameOver.render("Game Over!", True, RED)
-#     rectGameOver = textGameOver.get_rect()
-#     rectGameOver.center = (IMG_ROAD.get_width()//2,
-#                            IMG_ROAD.get_height()//2)
-    
-#     fontGameOver2 = pygame.font.SysFont(textFonts, textSize//2)
-#     textGameOver2 = fontGameOver2.render("Score " + str(score), True, RED)
-#     rectGameOver2 = textGameOver2.get_rect()
-#     rectGameOver2.center = (IMG_ROAD.get_width()//2,
-#                            IMG_ROAD.get_height()//2 + 80)
-#     # 검은색 배경에 게임 오버 메시지 출력하기
-#     screen.fill(BLACK)
-#     screen.blit(textGameOver, rectGameOver)       
-#     screen.blit(textGameOver2, rectGameOver2)                                                                                                                                            
-
+HELP_BUTTON_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Help_Button_Click.png")).convert_alpha()
+HELP_BUTTON_CLICK = pygame.transform.scale(HELP_BUTTON_CLICK, (251, 107))                                                                        
 def main():
     # 게임 시작은 이곳에서
     # 파이게임 초기화하기
@@ -72,11 +61,13 @@ def main():
     # 제목 표시줄 설정하기
     pygame.display.set_caption("Mini Games")
     screen.blit(LOBBY, (0, 0))
-    screen.blit(LEFT_ARROW, (37, 200))
-    screen.blit(RIGHT_ARROW, (960, 200))
-    screen.blit(PLAY_BUTTON, (100, 600))
-    screen.blit(HELP_BUTTON, (800, 600))
+    screen.blit(LOADING, (344,134))
+    screen.blit(LEFT_ARROW, (50, 324))
+    screen.blit(RIGHT_ARROW, (835, 324))
+    screen.blit(PLAY_BUTTON, (179, 610))
+    screen.blit(HELP_BUTTON, (585, 610))
 
+    print('LEFT BUTTON POS : ', (LEFT_ARROW.get_width(), LEFT_ARROW.get_height()))
     # 메인 게임 루프
     while True:
         # 이벤트 확인하기
@@ -95,8 +86,27 @@ def main():
                     runner.game_start()
                 else:
                     print("test2")
-
-
+            if LEFT_ARROW_GET_RECT.collidepoint(pygame.mouse.get_pos()):
+                #print('in mousehover')
+                screen.blit(LEFT_ARROW_CLICK, (50, 324))
+            else:
+                screen.blit(LEFT_ARROW, (50, 324))
+                
+            if RIGHT_ARROW_GET_RECT.collidepoint(pygame.mouse.get_pos()):
+                #print('in mousehover')
+                screen.blit(RIGHT_ARROW_CLICK, (835, 324))
+            else:
+                screen.blit(RIGHT_ARROW, (835, 324))
+            
+            if PLAY_BUTTON_GET_RECT.collidepoint(pygame.mouse.get_pos()):
+                screen.blit(PLAY_BUTTON_CLICK, (179, 610))
+            else:
+                screen.blit(PLAY_BUTTON, (179, 610))
+            
+            if HELP_BUTTON_GET_RECT.collidepoint(pygame.mouse.get_pos()):
+                screen.blit(HELP_BUTTON_CLICK, (585, 610))
+            else:
+                screen.blit(HELP_BUTTON, (585, 610))
 
         # 화면 업데이트하기
         pygame.display.update()
