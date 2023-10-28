@@ -6,6 +6,7 @@ import tetris, racingGame, runner
 # 게임 경로 설정하기
 GAME_ROOT_FOLDER = os.path.dirname(__file__)
 IMAGE_FOLDER = os.path.join(GAME_ROOT_FOLDER, "Images")
+VIDEO_FOLDER = os.path.join(GAME_ROOT_FOLDER, "videos")
 
 # 게임 화면 초기화하기
 screen = pygame.display.set_mode((1024, 768))
@@ -46,7 +47,12 @@ HELP_BUTTON = pygame.transform.scale(HELP_BUTTON, (251, 107))
 HELP_BUTTON_GET_RECT = HELP_BUTTON.get_rect(left=585, top=610)
 
 HELP_BUTTON_CLICK = pygame.image.load(os.path.join(IMAGE_FOLDER, "Help_Button_Click.png")).convert_alpha()
-HELP_BUTTON_CLICK = pygame.transform.scale(HELP_BUTTON_CLICK, (251, 107))                                                                        
+HELP_BUTTON_CLICK = pygame.transform.scale(HELP_BUTTON_CLICK, (251, 107)) 
+
+RACING_GAME = pygame.image.load(os.path.join(IMAGE_FOLDER, "RACING_GAME.png")).convert_alpha()
+TETRIS_GAME = pygame.image.load(os.path.join(IMAGE_FOLDER, "TETRIS_GAME.png")).convert_alpha()
+RUNNING_GAME = pygame.image.load(os.path.join(IMAGE_FOLDER, "RUNNING_GAME.png")).convert_alpha()
+
 def main():
     # 게임 시작은 이곳에서
     # 파이게임 초기화하기
@@ -58,6 +64,10 @@ def main():
     # 프레임 레이트 설정하기
     clock.tick(60)
 
+    # index 및 게임 종류 셋팅
+    minigames = ['racing', 'tetris', 'running']
+    index = 0
+
     # 제목 표시줄 설정하기
     pygame.display.set_caption("Mini Games")
     screen.blit(LOBBY, (0, 0))
@@ -66,6 +76,13 @@ def main():
     screen.blit(RIGHT_ARROW, (835, 324))
     screen.blit(PLAY_BUTTON, (179, 610))
     screen.blit(HELP_BUTTON, (585, 610))
+
+    if minigames[index] == "racing":
+        screen.blit(RACING_GAME, (344,134))
+    elif minigames[index] == "tetris":
+        screen.blit(TETRIS_GAME, (344,134))
+    elif minigames[index] == "running":
+        screen.blit(RUNNING_GAME, (344,134))
 
     print('LEFT BUTTON POS : ', (LEFT_ARROW.get_width(), LEFT_ARROW.get_height()))
     # 메인 게임 루프
@@ -89,22 +106,54 @@ def main():
             if LEFT_ARROW_GET_RECT.collidepoint(pygame.mouse.get_pos()):
                 #print('in mousehover')
                 screen.blit(LEFT_ARROW_CLICK, (50, 324))
+                if event.type == MOUSEBUTTONDOWN:
+                    index -= 1
+                    if(index < 0):
+                            index = len(minigames)-1
+                    print(index)
+                    if minigames[index] == "racing":
+                        screen.blit(RACING_GAME, (344,134))
+                    elif minigames[index] == "tetris":
+                        screen.blit(TETRIS_GAME, (344,134))
+                    elif minigames[index] == "running":
+                        screen.blit(RUNNING_GAME, (344,134))
             else:
                 screen.blit(LEFT_ARROW, (50, 324))
                 
             if RIGHT_ARROW_GET_RECT.collidepoint(pygame.mouse.get_pos()):
                 #print('in mousehover')
                 screen.blit(RIGHT_ARROW_CLICK, (835, 324))
+                if event.type == MOUSEBUTTONDOWN:
+                    index += 1
+                    if index > len(minigames)-1:
+                        index = 0
+                    print(index)
+                    if minigames[index] == "racing":
+                        screen.blit(RACING_GAME, (344,134))
+                    elif minigames[index] == "tetris":
+                        screen.blit(TETRIS_GAME, (344,134))
+                    elif minigames[index] == "running":
+                        screen.blit(RUNNING_GAME, (344,134))
+                                        
+                    
             else:
                 screen.blit(RIGHT_ARROW, (835, 324))
             
             if PLAY_BUTTON_GET_RECT.collidepoint(pygame.mouse.get_pos()):
                 screen.blit(PLAY_BUTTON_CLICK, (179, 610))
+                if event.type == MOUSEBUTTONDOWN:
+                    if minigames[index] == "racing":
+                        racingGame.game_start()
+                    elif minigames[index] == "tetris":
+                        tetris.game_start()
+                    elif minigames[index] == "running":
+                        runner.game_start()
             else:
                 screen.blit(PLAY_BUTTON, (179, 610))
             
             if HELP_BUTTON_GET_RECT.collidepoint(pygame.mouse.get_pos()):
                 screen.blit(HELP_BUTTON_CLICK, (585, 610))
+                #if event.type == MOUSEBUTTONDOWN:
             else:
                 screen.blit(HELP_BUTTON, (585, 610))
 

@@ -5,6 +5,7 @@ import sys, os, random, time
 from pygame.locals import *
 import tetris, miniGameList
 
+
 # 게임 경로 설정하기
 GAME_ROOT_FOLDER = os.path.dirname(__file__)
 IMAGE_FOLDER = os.path.join(GAME_ROOT_FOLDER, "Images")

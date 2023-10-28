@@ -4,8 +4,8 @@ import random, os
 pygame.font.init()
 
 # GLOBALS VARS
-s_width = 800
-s_height = 700
+s_width = 1024
+s_height = 768
 play_width = 300  # meaning 300 // 10 = 30 width per block
 play_height = 600  # meaning 600 // 20 = 30 height per block
 block_size = 30
@@ -235,8 +235,8 @@ def draw_next_shape(shape, surface):
     font = pygame.font.SysFont('comicsans', 30)
     label = font.render('Next Shape', 1, (255,255,255))
 
-    sx = top_left_x + play_width + 50
-    sy = top_left_y + play_height/2 - 100
+    sx = top_left_x + play_width + 90
+    sy = top_left_y + play_height/2 - 80
     format = shape.shape[shape.rotation % len(shape.shape)]
 
     for i, line in enumerate(format):
@@ -245,7 +245,7 @@ def draw_next_shape(shape, surface):
             if column == '0':
                 pygame.draw.rect(surface, shape.color, (sx + j*block_size, sy + i*block_size, block_size, block_size), 0)
 
-    surface.blit(label, (sx + 10, sy - 30))
+    surface.blit(label, (sx, sy - 50))
 
 
 def update_score(nscore):
@@ -282,14 +282,14 @@ def draw_window(surface, grid, score=0, last_score = 0):
     sx = top_left_x + play_width + 50
     sy = top_left_y + play_height/2 - 100
 
-    surface.blit(label, (sx + 20, sy + 160))
+    surface.blit(label, (sx + 60, sy + 160))
     # last score
     label = font.render('High Score: ' + last_score, 1, (255,255,255))
 
-    sx = top_left_x - 200
+    sx = top_left_x - 250
     sy = top_left_y + 200
 
-    surface.blit(label, (sx + 20, sy + 160))
+    surface.blit(label, (sx, sy + 160))
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):

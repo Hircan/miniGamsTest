@@ -23,14 +23,14 @@ class Player(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(midbottom = (80,300))
 		self.gravity = 0
 
-		self.jump_sound = pygame.mixer.Sound(os.path.join(SOUND_FOLDER,'jump.mp3'))
-		self.jump_sound.set_volume(0.5)
+		#self.jump_sound = pygame.mixer.Sound(os.path.join(SOUND_FOLDER,'jump.mp3'))
+		#self.jump_sound.set_volume(0.5)
 
 	def player_input(self):
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_SPACE] and self.rect.bottom >= 300:
 			self.gravity = -20
-			self.jump_sound.play()
+			#self.jump_sound.play()
 
 	def apply_gravity(self):
 		self.gravity += 1
@@ -56,8 +56,8 @@ class Obstacle(pygame.sprite.Sprite):
 		super().__init__()
 		
 		if type == 'fly':
-			fly_1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'fly/fly1.png')).convert_alpha()
-			fly_2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'fly/fly2.png')).convert_alpha()
+			fly_1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Fly/Fly1.png')).convert_alpha()
+			fly_2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Fly/Fly2.png')).convert_alpha()
 			self.frames = [fly_1,fly_2]
 			y_pos = 210
 		else:
@@ -114,6 +114,7 @@ def collisions(player,obstacles):
 def collision_sprite():
 	if pygame.sprite.spritecollide(player.sprite,obstacle_group,False):
 		obstacle_group.empty()
+		score = 0
 		return False
 	else: return True
 
@@ -131,7 +132,7 @@ def player_animation():
 
 def game_start():
 	pygame.init()
-	
+	screen = pygame.display.set_mode((800,400))
 	pygame.display.set_caption('Runner')
 	clock = pygame.time.Clock()
 	
@@ -269,8 +270,8 @@ snail_frame_index = 0
 snail_surf = snail_frames[snail_frame_index]
 
 # Fly
-fly_frame1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'fly/fly1.png')).convert_alpha()
-fly_frame2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'fly/fly2.png')).convert_alpha()
+fly_frame1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Fly/Fly1.png')).convert_alpha()
+fly_frame2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Fly/Fly2.png')).convert_alpha()
 fly_frames = [fly_frame1, fly_frame2]
 fly_frame_index = 0
 fly_surf = fly_frames[fly_frame_index]
@@ -278,18 +279,18 @@ fly_surf = fly_frames[fly_frame_index]
 obstacle_rect_list = []
 
 
-player_walk_1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'player/player_walk_1.png')).convert_alpha()
-player_walk_2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'player/player_walk_2.png')).convert_alpha()
+player_walk_1 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Player/player_walk_1.png')).convert_alpha()
+player_walk_2 = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Player/player_walk_2.png')).convert_alpha()
 player_walk = [player_walk_1,player_walk_2]
 player_index = 0
-player_jump = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'player/jump.png')).convert_alpha()
+player_jump = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Player/jump.png')).convert_alpha()
 
 player_surf = player_walk[player_index]
 player_rect = player_surf.get_rect(midbottom = (80,300))
 player_gravity = 0
 
 # Intro screen
-player_stand = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'player/player_stand.png')).convert_alpha()
+player_stand = pygame.image.load(os.path.join(GRAPHICS_FOLDER, 'Player/player_stand.png')).convert_alpha()
 player_stand = pygame.transform.rotozoom(player_stand,0,2)
 player_stand_rect = player_stand.get_rect(center = (400,200))
 
